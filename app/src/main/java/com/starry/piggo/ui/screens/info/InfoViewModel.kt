@@ -1,0 +1,141 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) [2022 - Present] Stɑrry Shivɑm
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+
+package com.starry.piggo.ui.screens.info
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.starry.piggo.database.core.GoalWithTransactions
+import com.starry.piggo.database.goal.GoalDao
+import com.starry.piggo.database.transaction.Transaction
+import com.starry.piggo.database.transaction.TransactionDao
+import com.starry.piggo.database.transaction.TransactionType
+import com.starry.piggo.ui.screens.settings.DateStyle
+import com.starry.piggo.utils.NumberUtils
+import com.starry.piggo.utils.PreferenceUtil
+import com.starry.piggo.utils.Utils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import javax.inject.Inject
+
+data class InfoScreenState(
+    val goalData: Flow<GoalWithTransactions?>? = null
+)
+
+data class EditTransactionState(
+    val amount: String = "",
+    val notes: String = "",
+)
+
+@HiltViewModel
+class InfoViewModel @Inject constructor(
+    private val goalDao: GoalDao,
+    private val transactionDao: TransactionDao,
+    private val preferenceUtil: PreferenceUtil
+) : ViewModel() {
+
+    var state by mutableStateOf(InfoScreenState())
+    var editTransactionState by mutableStateOf(EditTransactionState())
+
+    fun loadGoalData(goalId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val goalWithTransactions = goalDao.getGoalWithTransactionByIdAsFlow(goalId)
+            delay(450L)
+            state = state.copy(goalData = goalWithTransactions)
+        }
+    }
+
+    fun setEditTransactionState(transaction: Transaction) {
+        editTransactionState = EditTransactionState(
+            amount = transaction.amount.toString(),
+            notes = transaction.notes,
+        )
+    }
+
+    fun deleteTransaction(transaction: Transaction) {
+        viewModelScope.launch(Dispatchers.IO) {
+            transactionDao.deleteTransaction(transaction)
+        }
+    }
+
+    fun updateTransaction(
+        transaction: Transaction,
+        transactionTime: LocalDateTime,
+        transactionType: TransactionType
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val newTransaction = transaction.copy(
+                type = transactionType,
+                timeStamp = Utils.getEpochTime(transactionTime),
+                amount = NumberUtils.roundDecimal(editTransactionState.amount.toDouble()),
+                notes = editTransactionState.notes
+            )
+            newTransaction.transactionId = transaction.transactionId
+            transactionDao.updateTransaction(newTransaction)
+        }
+    }
+
+    // Duplicate transaction:
+    // Creates a new transaction while respecting the edited fields (if any),
+    // but with a new (current) timestamp.
+    fun duplicateTransaction(transaction: Transaction, transactionType: TransactionType) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val newTransaction = transaction.copy(
+                type = transactionType,
+                timeStamp = Utils.getEpochTime(LocalDateTime.now()),
+                amount = NumberUtils.roundDecimal(editTransactionState.amount.toDouble()),
+                notes = editTransactionState.notes
+            )
+            // Reset ID to insert as new entry
+            newTransaction.transactionId = 0L
+            transactionDao.insertTransaction(newTransaction)
+        }
+    }
+
+    fun getDefaultCurrencyValue() = preferenceUtil.getString(
+        PreferenceUtil.DEFAULT_CURRENCY_STR, "$"
+    )!!
+
+    fun getDateStyle(): DateStyle {
+        return preferenceUtil.getInt(PreferenceUtil.DATE_STYLE_INT, DateStyle.DD_MM_YYYY.ordinal)
+            .let { DateStyle.entries[it] }
+    }
+
+    fun shouldShowTransactionTip() = preferenceUtil.getBoolean(
+        PreferenceUtil.INFO_TRANSACTION_SWIPE_TIP_BOOL, true
+    )
+
+    fun transactionTipDismissed() = preferenceUtil.putBoolean(
+        PreferenceUtil.INFO_TRANSACTION_SWIPE_TIP_BOOL, false
+    )
+
+}

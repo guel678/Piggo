@@ -12,7 +12,7 @@ plugins {
 
 
 android {
-    namespace 'com.starry.greenstash'
+    namespace 'com.starry.piggo'
     compileSdk = 36
 
     defaultConfig {
