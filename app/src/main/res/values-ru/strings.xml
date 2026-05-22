@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Piggo</string>
+    <!-- Other Strings -->
+    <string name="confirm">Подтвердить</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">OK</string>
+    <string name="unknown_error">Упс! Что-то пошло не так</string>
+    <!-- Navigation Drawer -->
+    <string name="drawer_home">Главная</string>
+    <string name="drawer_archive">Архив</string>
+    <string name="drawer_backup">Резервные копии</string>
+    <string name="drawer_settings">Настройки</string>
+    <string name="drawer_rating">Оценить нас</string>
+    <string name="drawer_share">Поделиться</string>
+    <string name="drawer_privacy">Конфиденциальность</string>
+    <string name="drawer_footer_text">Сделано с ❤️ в Индии</string>
+    <string name="drawer_share_message">Привет! Посмотри это удивительное приложение под названием Piggo. Оно делает планирование и управление твоими финансовыми целями легким и приятным, помогая установить привычку экономить деньги для еще более лучших вещей. Скачай его сейчас из Play Store: %s</string>
+    <!-- Biometric Lock -->
+    <string name="bio_lock_title">Разблокировать Piggo</string>
+    <string name="bio_lock_subtitle">Подтвердите блокировку экрана, ПИН-код или пароль.</string>
+    <string name="auth_successful">Аутентификация прошла успешно!</string>
+    <string name="auth_failed">Аутентификация не пройдена!</string>
+    <string name="auth_error">Ошибка аутентификации: %s</string>
+    <!-- Welcome Screen. -->
+    <string name="welcome_screen_text">Здравствуйте! Пожалуйста, выберите предпочтительную валюту для начала работы.</string>
+    <string name="welcome_screen_button">Давайте начнем!</string>
+    <!-- App Lock Screen -->
+    <string name="app_lock_screen_title">Piggo заблокирован</string>
+    <string name="app_lock_screen_subtitle">Нажмите на кнопку ниже, чтобы пройти аутентификацию.</string>
+    <string name="app_lock_button_text">Авторизовать</string>
+    <string name="app_lock_button_icon_desc">Разблокировать приложение</string>
+    <string name="app_lock_unable_to_authenticate">Блокировка приложений отключена, поскольку устройство не может пройти аутентификацию</string>
+    <!-- Home Screen -->
+    <string name="home_screen_header">Цели накопления</string>
+    <string name="menu_button_desc">Открыть боковое меню</string>
+    <string name="filter_button_desc">Фильтрация целей сбережения</string>
+    <string name="search_button_desc">Поиск конкретной цели сбережения</string>
+    <string name="new_goal_fab">Новая цель</string>
+    <string name="new_goal_onboarding_title">Давайте начнем с создания новой цели накопления!</string>
+    <string name="new_goal_onboarding_desc">Нажмите на плавающую кнопку действия, чтобы создать новую цель накопления.</string>
+    <string name="home_search_label">Искать здесь…</string>
+    <string name="search_goal_not_found">404: Цель не найдена!</string>
+    <string name="filter_title">Title</string>
+    <string name="filter_amount">Amount</string>
+    <string name="filter_priority">Priority</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_descending">Descending</string>
+    <!-- Deposit & Withdraw Screen -->
+    <string name="deposit_screen_title">Замечательно! Введите сумму</string>
+    <string name="withdraw_screen_title">Замечательно! Введите сумму</string>
+    <string name="deposit_successful">Пополнено успешно!</string>
+    <string name="withdraw_successful">Снято успешно!</string>
+    <string name="withdraw_overflow_error">Сумма больше, чем текущая сумма депозита!</string>
+    <!-- Congratulations Screen -->
+    <string name="goal_achieved_heading">Поздравляю 🥳</string>
+    <string name="goal_achieved_subtext">Вы достигли своей цели по накоплению! Ваш упорный труд и целеустремленность привели к этому заслуженному достижению. Отпразднуйте свой успех! 🎉</string>
+    <string name="goal_achieved_button">Вернуться на главную страницу</string>
+    <!-- Strings used for dashboard saving goals cards -->
+    <string name="no_goal_set">Нет целей сбережения.</string>
+    <string name="transaction_amount">Сумма</string>
+    <string name="deposit_button">Пополнить</string>
+    <string name="goal_already_achieved">Вы уже достигли этой цели.</string>
+    <string name="withdraw_button">Вывести</string>
+    <string name="withdraw_button_error">Вы еще не вносили никакой суммы.</string>
+    <string name="archive_button">Архивировать</string>
+    <string name="goal_archive_confirmation">Эта цель достигнута! Хотите ли вы архивировать её?</string>
+    <string name="goal_archive_success">Успешно архивировано.</string>
+    <string name="goal_delete_confirmation">Вы уверены?</string>
+    <string name="goal_delete_success">Удалено успешно.</string>
+    <string name="info_button_description">Просмотр информации о цели.</string>
+    <string name="edit_button_description">Изменить эту цель</string>
+    <string name="delete_button_description">Удалить эту цель</string>
+    <string name="add_fab_button_title">Новая цель</string>
+    <string name="progress_greet1">Отличное начало!</string>
+    <string name="progress_greet2">Продолжайте в том же духе!</string>
+    <string name="progress_greet3">Если вы думаете, что сможете это сделать, значит, сможете.</string>
+    <string name="progress_greet4">Почти у цели, вы получили это!</string>
+    <string name="progress_greet5">Поздравляю 🎉</string>
+    <string name="currently_saved_incomplete" formatted="false">В настоящее время сбережено %1$s из %2$s.</string>
+    <string name="currently_saved_complete" formatted="false">Вы сберегли %1$s из %2$s</string>
+    <!-- Eg: You have until 25/12/2022 (152) days left. -->
+    <string name="goal_days_left" formatted="false">У вас осталось времени до %1$s (%2$s) дней.</string>
+    <!-- Eg: You need to save around $2/day, $20/week, $200/month. -->
+    <string name="goal_approx_saving">Вам нужно сберегать примерно %s в</string>
+    <string name="goal_approx_saving_day">день.</string>
+    <string name="goal_approx_saving_week">неделю.</string>
+    <string name="goal_approx_saving_month">месяц.</string>
+    <string name="no_goal_deadline_set">Поскольку вы не указали никаких сроков, у вас есть все время в мире!</string>
+    <string name="goal_achieved_desc">Пришло время отметить все труды, которые привели к этому радостному событию!</string>
+    <!-- Goal Info Screen -->
+    <string name="info_screen_header">Информация о цели</string>
+    <string name="info_card_title">Вы сэкономили</string>
+    <string name="info_card_remaining_amount">Из %s</string>
+    <string name="info_card_remaining_days">%s дней осталось.</string>
+    <string name="info_card_no_deadline_set">Сроки не установлены.</string>
+    <string name="info_card_goal_achieved">Цель достигнута! 🎉</string>
+    <string name="info_goal_priority">Приоритет цели: %s</string>
+    <string name="info_reminder_status_on">Напоминания включены</string>
+    <string name="info_reminder_status_off">Напоминания отключены</string>
+    <string name="info_notes_card_title">Примечания</string>
+    <string name="info_copy_notes_button">Копировать</string>
+    <string name="info_copy_notes_icon_desc">Копировать примечания</string>
+    <string name="info_copy_notes_alert">Скопировано успешно!</string>
+    <string name="info_goal_no_transactions">Транзакций пока нет.</string>
+    <string name="info_edit_transaction_button">Обновить транзакцию</string>
+    <string name="info_duplicate_transaction_button">Дублировать транзакцию</string>
+    <string name="info_transaction_swipe_tip">Совет! Проведите пальцем по транзакциям влево или вправо, чтобы отредактировать или удалить их.</string>
+    <!-- Input (New/Edit Goal) Screen -->
+    <string name="input_screen_header">Пришло время экономить!</string>
+    <string name="input_edit_goal_header">Редактировать цель сбережения</string>
+    <string name="input_pick_icon">Выберите значок для своей цели.</string>
+    <string name="input_pick_icon_onboarding_title">…Или, если вам нравится минимализм, добавьте значок для своей цели.</string>
+    <string name="input_pick_icon_onboarding_desc">Значки целей будут использоваться на компактных карточках целей: «Настройки» &gt; «Стиль карты целей».</string>
+    <string name="input_pick_image_fab">Изображение цели</string>
+    <string name="input_pick_image_onboarding_title">Добавьте изображения к своим целям, чтобы придать им индивидуальный вид!</string>
+    <string name="input_pick_image_onboarding_desc">Нажмите на плавающую кнопку действия, чтобы добавить изображение к своей цели.</string>
+    <string name="input_goal_priority">Выберите приоритет для своей цели.</string>
+    <string name="priority_high">High</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_low">Low</string>
+    <string name="input_goal_reminder">Напоминания о сбережении</string>
+    <string name="input_goal_reminders_onboarding_title">Включите напоминания, чтобы быть в курсе своих целей!</string>
+    <string name="input_goal_reminders_onboarding_desc">Напоминания будут отправляться ежедневно, раз в полнедели или раз в неделю, в зависимости от приоритета цели.</string>
+    <string name="input_text_title">Название цели</string>
+    <string name="title_empty_err">Упс! Заголовок пуст.</string>
+    <string name="input_text_amount">Целевая сумма</string>
+    <string name="amount_empty_err">Упс! Сумма пустая или неправильная.</string>
+    <string name="input_deadline">Крайний срок (необязательно)</string>
+    <string name="input_additional_notes">Примечания (необязательно)</string>
+    <string name="input_add_goal_button">Установить новую цель экономии</string>
+    <string name="input_edit_goal_button">Обновить цель накопления</string>
+    <string name="input_goal_saved_success">Отлично! Цель экономии достигнута.</string>
+    <string name="input_goad_edit_success">Обновлена цель накопления.</string>
+    <string name="input_goal_remove_deadline">Хотите удалить крайний срок для этой цели?</string>
+    <string name="input_remove_deadline_tip">Совет! Вы можете удалить крайний срок из существующих целей, долго нажимая на поле крайнего срока.</string>
+    <!-- Archive Screen -->
+    <string name="archive_screen_header">Архивированные цели</string>
+    <string name="archive_empty">Пока нет архивированных целей.</string>
+    <string name="goal_restore_confirmation">Хотите восстановить эту цель?</string>
+    <string name="goal_restore_success">Успешно восстановлено.</string>
+    <!-- Backup Screen -->
+    <string name="backup_screen_header">Резервное копирование и восстановление</string>
+    <string name="backup_screen_text">Создайте резервную копию данных приложения, включая все цели накопления, текущий прогресс, транзакции и т. д., и легко восстановите ее в любое время.</string>
+    <string name="backup_screen_sub_text">Обратите внимание, что резервные копии не включают настройки приложения.</string>
+    <string name="backup_button">Резервное копирование</string>
+    <string name="backup_restore_button">Восстановить</string>
+    <string name="backup_select_file_type">Выберите тип файла резервной копии</string>
+    <string name="backup_csv_note">Примечание: Из-за ограничений формата CSV изображения целей не будут включены в резервную копию.</string>
+    <string name="backup_ftp_create_button">Создать резервную копию</string>
+    <string name="backup_ftp_restore_button">Восстановить резервную копию</string>
+    <string name="backup_restore_success">Резервная копия успешно восстановлена!</string>
+    <!-- Settings Screen -->
+    <string name="settings_screen_header">Настройки</string>
+    <string name="display_settings_title">Дисплей</string>
+    <string name="theme_setting">Тема по умолчанию</string>
+    <string name="theme_dialog_title">Изменить тему</string>
+    <string name="theme_dialog_option1">Светлая</string>
+    <string name="theme_dialog_option2">Тёмная</string>
+    <string name="theme_dialog_option3">Как в системе</string>
+    <string name="amoled_theme_setting">Чёрная тема</string>
+    <string name="amoled_theme_desc">Включить черную тему AMOLED</string>
+    <string name="theme_dialog_apply_button">Применить</string>
+    <string name="material_you_setting_desc">Переключение темы в соответствии с вашими обоями (только для A12+)</string>
+    <string name="material_you_error">Эта функция доступна только для устройств под управлением Android 12 или более поздней версии.</string>
+    <string name="goal_card_setting">Стиль карты цели</string>
+    <string name="preview">Preview</string>
+    <string name="preview_example_title">Home Decorations</string>
+    <string name="preview_example_primary_text">You\'re off to a great start! Currently saved %1$s out of %2$s</string>
+    <string name="preview_example_secondary_text">You have until 26/05/2023 (85) days left. You need to save around %1$s/day, %2$s/week, %3$s/month</string>
+    <string name="goal_card_option1">Классический</string>
+    <string name="goal_card_option2">Компактный</string>
+    <string name="locales_setting_title">Региональные настройки</string>
+    <string name="app_locale_setting">Язык по умолчанию</string>
+    <string name="app_locale_setting_desc">Выберите предпочитаемый язык</string>
+    <string name="date_format_setting">Формат даты</string>
+    <string name="date_format_dialog_title">Изменить формат даты</string>
+    <string name="preferred_currency_setting">Предпочтительная валюта</string>
+    <string name="currency_dialog_title">Выберите предпочтительную валюту</string>
+    <string name="search_currency">Search currency</string>
+    <string name="search">Search</string>
+    <string name="security_settings_title">Безопасность</string>
+    <string name="app_lock_setting">Биометрическая блокировка</string>
+    <string name="app_lock_setting_desc">Используйте свой отпечаток пальца или пароль блокировки экрана, чтобы разблокировать Piggo.</string>
+    <string name="misc_setting_title">Разное</string>
+    <string name="license_setting">Лицензия и авторы</string>
+    <string name="license_setting_desc">Показать информацию о лицензии с открытым исходным кодом.</string>
+    <string name="app_info_setting">Информация о приложении</string>
+    <string name="app_info_setting_desc">Показать версию приложения и полезные ссылки.</string>
+    <!-- Accessibility strings for settings -->
+    <string name="switch_action_close">Закрыть</string>
+    <string name="switch_action_open">Открыть</string>
+    <string name="switch_state_close">выключено</string>
+    <string name="switch_state_open">включено</string>
+    <string name="navigate_back_desc">Назад</string>
+    <!-- Goal Card Style -->
+    <string name="goal_card_settings_header">Стиль цели</string>
+    <string name="goal_card_settings_tip">Совет! Чтобы изменить или удалить цель накоплений, можно провести пальцем по компактной карточке влево или вправо.</string>
+    <!-- OSL Screen -->
+    <string name="osl_screen_header">Библиотеки с открытым исходным кодом</string>
+    <!-- About Screen -->
+    <string name="about_screen_header">О приложении</string>
+    <string name="about_readme_title">ПРОЧТИ МЕНЯ</string>
+    <string name="about_readme_desc">Ознакомьтесь с репозиторием на GitHub и README файл приложения.</string>
+    <string name="about_website_title">Веб-сайт</string>
+    <string name="about_website_desc">Посетите наш веб-сайт, чтобы получить больше информации и изучить наши другие приложения и проекты</string>
+    <string name="about_privacy_title">Политика конфиденциальности</string>
+    <string name="about_privacy_desc">Ознакомьтесь с нашей последней политикой конфиденциальности и условиями обслуживания на GitHub.</string>
+    <string name="about_gh_issue_title">Багтрекер GitHub</string>
+    <string name="about_gh_issue_desc">Отправляйте отчеты об ошибках или запросы на добавление функциональностей на Github.</string>
+    <string name="about_telegram_title">Группа в Telegram</string>
+    <string name="about_telegram_desc">Присоединяйтесь к нам в telegram, чтобы поделиться своими идеями или просто пообщаться!</string>
+    <string name="about_support_title">Поддержка разработки</string>
+    <string name="about_support_desc">Если вы считаете что я заслуживаю печенек за свою работу, вы можете купить мне их нажав здесь.</string>
+    <string name="about_version_title">Версия</string>
+    <string name="about_version_desc">Версия-%s</string>
+    <!-- Widget Screen -->
+    <string name="widget_config_screen_header">Выберите цель</string>
+    <string name="goal_widget_desc">Сэкономлено %s</string>
+    <!-- Goal Reminders -->
+    <string name="notification_permission_error">Пожалуйста, разрешите уведомления! 😾</string>
+    <string name="reminder_notification_desc">Чем больше вы сэкономите, тем быстрее достигнете своей цели! 💰</string>
+    <string name="dismiss_notification_button">Закрыть</string>
+    <string name="notification_deposited_title">Отличная работа 🎉</string>
+    <string name="notification_deposited_desc">Успешно пополнено %s !</string>
+    <string name="input_page_quote" translatable="false"/>
+    <string name="material_you_setting" translatable="false"/>
+</resources>

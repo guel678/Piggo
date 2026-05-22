@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Piggo</string>
+    <!-- Other Strings -->
+    <string name="confirm">Onayla</string>
+    <string name="cancel">İptal</string>
+    <string name="ok">Tamam</string>
+    <string name="unknown_error">Hoop! bir şeyler yanlış gitti.</string>
+    <!-- Navigation Drawer -->
+    <string name="drawer_home">Ana Sayfa</string>
+    <string name="drawer_archive">Arşiv</string>
+    <string name="drawer_backup">Yedekler</string>
+    <string name="drawer_settings">Ayarlar</string>
+    <string name="drawer_rating">Bizi Değerlendir</string>
+    <string name="drawer_share">Paylaş</string>
+    <string name="drawer_privacy">Gizlilik</string>
+    <string name="drawer_footer_text">❤️ Hindistan\'da yapıldı.</string>
+    <string name="drawer_share_message">Merhaba! Piggo adlı bu harika uygulamaya göz at. Tasarruf hedeflerinizi planlamanızı ve yönetmenizi kolaylaştırır, daha iyi şeyler için para biriktirme alışkanlığınızı kazanmanıza yardımcı olur. Şimdi Play Store\'dan indirin: %s</string>
+    <!-- Biometric Lock -->
+    <string name="bio_lock_title">Piggo\'in Kilidini Aç</string>
+    <string name="bio_lock_subtitle">Ekran kilidinizi onaylayın, PIN ya da şifre.</string>
+    <string name="auth_successful">Doğrulama başarılı!</string>
+    <string name="auth_failed">Doğrulama başarısız!</string>
+    <string name="auth_error">Doğrulama hatası: %s</string>
+    <!-- Welcome Screen. -->
+    <string name="welcome_screen_text">Merhaba! Lütfen başlamak için tercih edilen para birimini seçin.</string>
+    <string name="welcome_screen_button">Başla!</string>
+    <!-- App Lock Screen -->
+    <string name="app_lock_screen_title">Piggo kilitli</string>
+    <string name="app_lock_screen_subtitle">Kimlik doğrulamak için aşağıdaki düğmeye tıklayın.</string>
+    <string name="app_lock_button_text">Yetkilendir</string>
+    <string name="app_lock_button_icon_desc">Uygulamayı Aç</string>
+    <string name="app_lock_unable_to_authenticate">Cihaz kimlik doğrulayamadığı için uygulama kilitli değil</string>
+    <!-- Home Screen -->
+    <string name="home_screen_header">Birikim Hedefleri</string>
+    <string name="menu_button_desc">Yan menüyü aç</string>
+    <string name="filter_button_desc">Birikim hedeflerini filtrele</string>
+    <string name="search_button_desc">Belli bir birikim hedefini ara.</string>
+    <string name="new_goal_fab">Yeni Hedef</string>
+    <string name="new_goal_onboarding_title">Yeni bir tasarruf hedefi oluşturarak başlayalım!</string>
+    <string name="new_goal_onboarding_desc">Yeni bir tasarruf hedefi oluşturmak için hareketli işlem düğmesine tıklayın.</string>
+    <string name="home_search_label">Ara…</string>
+    <string name="search_goal_not_found">404: Hedef bulunamadı!</string>
+    <string name="filter_title">Title</string>
+    <string name="filter_amount">Amount</string>
+    <string name="filter_priority">Priority</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_descending">Descending</string>
+    <!-- Deposit & Withdraw Screen -->
+    <string name="deposit_screen_title">Harika! tutar girin</string>
+    <string name="withdraw_screen_title">İyi! tutar girin</string>
+    <string name="deposit_successful">Başarıyla Yatırıldı!</string>
+    <string name="withdraw_successful">Başarıyla Çekildi!</string>
+    <string name="withdraw_overflow_error">Tutar, mevcut yatırılan tutardan daha fazla!</string>
+    <!-- Congratulations Screen -->
+    <string name="goal_achieved_heading">Tebrikler 🥳</string>
+    <string name="goal_achieved_subtext">Tasarruf hedefinize ulaştınız! Sıkı çalışmanız ve kararlılığınız bu hak ettiğiniz başarıya ulaşmanızı sağladı. Başarınızı kutlayın! 🎉</string>
+    <string name="goal_achieved_button">Ana ekrana dön</string>
+    <!-- Strings used for dashboard saving goals cards -->
+    <string name="no_goal_set">Birikim Hedefi Yok.</string>
+    <string name="transaction_amount">Tutar Girin</string>
+    <string name="deposit_button">Yatır</string>
+    <string name="goal_already_achieved">Birikim hedefine zaten ulaştın.</string>
+    <string name="withdraw_button">çek</string>
+    <string name="withdraw_button_error">Henüz herhangi bir tutar yatırmadın.</string>
+    <string name="archive_button">Arşivle</string>
+    <string name="goal_archive_confirmation">Bu hedef tamamlandı! Onu arşivlemek ister misiniz?</string>
+    <string name="goal_archive_success">Başarıyla arşivlendi.</string>
+    <string name="goal_delete_confirmation">Emin misin?</string>
+    <string name="goal_delete_success">Başarıyla Silindi.</string>
+    <string name="info_button_description">Hedef bilgilerini görüntüle.</string>
+    <string name="edit_button_description">Hedefi düzenle</string>
+    <string name="delete_button_description">Hedefi Sil</string>
+    <string name="add_fab_button_title">Yeni hedef</string>
+    <string name="progress_greet1">Harika bir başlangıç yaptın!</string>
+    <string name="progress_greet2">Devam etmeye devam et!</string>
+    <string name="progress_greet3">Yapabileceğini düşünüyorsan, yapabilirsin.</string>
+    <string name="progress_greet4">Neredeyse oldu, Halledeceksin!</string>
+    <string name="progress_greet5">Tebrikler 🎉</string>
+    <string name="currently_saved_incomplete">Biriktirilen: %1$s hedef: %2$s.</string>
+    <string name="currently_saved_complete">%1$s arasından %2$s biriktirdin.</string>
+    <!-- Eg: You have until 25/12/2022 (152) days left. -->
+    <string name="goal_days_left">%1$s tarihine kadar süren var (%2$s) gün kaldı.</string>
+    <!-- Eg: You need to save around $2/day, $20/week, $200/month. -->
+    <string name="goal_approx_saving">Yaklaşık olarak biriktirmen gereken: %s/</string>
+    <string name="goal_approx_saving_day">gün.</string>
+    <string name="goal_approx_saving_week">hafta.</string>
+    <string name="goal_approx_saving_month">ay.</string>
+    <string name="no_goal_deadline_set">Herhangi bir son tarih belirtmedin, dünyadaki tüm zamana sahipsin!</string>
+    <string name="goal_achieved_desc">Bu mutlu anı mümkün kılan tüm emeklerinizi kutlamanın zamanı geldi!</string>
+    <!-- Goal Info Screen -->
+    <string name="info_screen_header">Hedef Bilgileri</string>
+    <string name="info_card_title">Biriktirilen</string>
+    <string name="info_card_remaining_amount">%s arasından</string>
+    <string name="info_card_remaining_days">%s gün kaldı.</string>
+    <string name="info_card_no_deadline_set">Son tarih belirlenmedi.</string>
+    <string name="info_card_goal_achieved">Hedefe ulaşıldı! 🎉</string>
+    <string name="info_goal_priority">Hedef Önceliği: %s</string>
+    <string name="info_reminder_status_on">Hatırlatıcılar etkin</string>
+    <string name="info_reminder_status_off">Hatırlatıcılar devre dışı</string>
+    <string name="info_notes_card_title">Notlar</string>
+    <string name="info_copy_notes_button">Kopyala</string>
+    <string name="info_copy_notes_icon_desc">Notları Kopyala</string>
+    <string name="info_copy_notes_alert">Başarıyla Kopyalandı!</string>
+    <string name="info_goal_no_transactions">Henüz İşlem Yok.</string>
+    <string name="info_edit_transaction_button">İşlemi Güncelle</string>
+    <string name="info_duplicate_transaction_button">İşlemi Kopyala</string>
+    <string name="info_transaction_swipe_tip">İpucu: İşlemleri düzenlemek veya silmek için sola veya sağa kaydırın.</string>
+    <!-- Input (New/Edit Goal) Screen -->
+    <string name="input_screen_header">Birikim yapma zamanı!</string>
+    <string name="input_edit_goal_header">Birikim Hedefini Düzenle</string>
+    <string name="input_pick_icon">Hedefiniz için bir simge seçin.</string>
+    <string name="input_pick_icon_onboarding_title">…Ya da minimalizm tarzınızsa, hedefiniz için bir simge ekleyin.</string>
+    <string name="input_pick_icon_onboarding_desc">Hedef simgeleri, kompakt stil hedef kartlarında kullanılacaktır, Ayarlar &gt; Hedef Kartı Stili</string>
+    <string name="input_pick_image_fab">Hedef Resmi</string>
+    <string name="input_pick_image_onboarding_title">Hedeflerinize kişisel bir görünüm kazandırmak için resimler ekleyin!</string>
+    <string name="input_pick_image_onboarding_desc">Hedefinize bir resim eklemek için hareketli işlem düğmesine tıklayın.</string>
+    <string name="input_page_quote" translatable="false">Merdivenin tamamını görmek zorunda değilsin, sadece ilk adımı at. – Martin Luther King, Jr.</string>
+    <string name="input_goal_priority">Bu hedef için öncelik seçin.</string>
+    <string name="priority_high">High</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_low">Low</string>
+    <string name="input_goal_reminder">Tasarruf Hatırlatıcıları</string>
+    <string name="input_goal_reminders_onboarding_title">Hedeflerinizle Güncel Kalabilmek için Hatırlatıcıları Etkinleştirin!</string>
+    <string name="input_goal_reminders_onboarding_desc">Hatırlatıcılar, hedef önceliğine bağlı olarak günlük, haftalık veya yarı haftalık olarak gönderilecektir.</string>
+    <string name="input_text_title">Hedef Başlığı</string>
+    <string name="title_empty_err">Hoop! başlık boş.</string>
+    <string name="input_text_amount">Hedef Tutar</string>
+    <string name="amount_empty_err">Hoop! tutar boş ya da Geçersiz.</string>
+    <string name="input_deadline">Son Tarih (Opsiyonel)</string>
+    <string name="input_additional_notes">Notlar (Opsiyonel)</string>
+    <string name="input_add_goal_button">Yeni Birikim Hedefi Belirle</string>
+    <string name="input_edit_goal_button">Birikim Hedefini Güncelle</string>
+    <string name="input_goal_saved_success">Harika iş! Birikim hedefi belirlendi.</string>
+    <string name="input_goad_edit_success">Birikim hedefi güncellendi.</string>
+    <string name="input_goal_remove_deadline">Bu hedeften son tarihi kaldırmak istiyor musun?</string>
+    <string name="input_remove_deadline_tip">İpucu: Var olan hedeflerden birinin son tarihini kaldırmak için son tarih alanında uzun basılı tutabilirsiniz.</string>
+    <!-- Archive Screen -->
+    <string name="archive_screen_header">Arşivlenmiş Hedefler</string>
+    <string name="archive_empty">Henüz arşivlenmiş hedef yok.</string>
+    <string name="goal_restore_confirmation">Bu hedefi geri yüklemek istiyor musunuz?</string>
+    <string name="goal_restore_success">Başarıyla geri yüklendi.</string>
+    <!-- Backup Screen -->
+    <string name="backup_screen_header">Yedekle &amp; Geri yükle</string>
+    <string name="backup_screen_text">Tüm tasarruf hedefleriniz, mevcut ilerlemeniz, işlemleriniz vb. dahil olmak üzere uygulama verilerini yedekleyin ve istediğiniz zaman kolayca geri yükleyin.</string>
+    <string name="backup_screen_sub_text">Not: Yedekler uygulama ayarlarını içermez.</string>
+    <string name="backup_button">Yedekle</string>
+    <string name="backup_restore_button">Geri Yükle</string>
+    <string name="backup_select_file_type">Yedekleme dosya türünü seç</string>
+    <string name="backup_csv_note">Not: CSV formatının sınırlamaları nedeniyle, hedef resimleri yedeklenmeyecektir.</string>
+    <string name="backup_ftp_create_button">Yedek Oluştur</string>
+    <string name="backup_ftp_restore_button">Yedeği Geri Yükle</string>
+    <string name="backup_restore_success">Yedek başarıyla geri yüklendi!</string>
+    <!-- Settings Screen -->
+    <string name="settings_screen_header">Ayarlar</string>
+    <string name="display_settings_title">Görünüm</string>
+    <string name="theme_setting">Varsayılan Tema</string>
+    <string name="theme_dialog_title">Temayı Değiştir</string>
+    <string name="theme_dialog_option1">Açık</string>
+    <string name="theme_dialog_option2">Koyu</string>
+    <string name="theme_dialog_option3">Sistem Varsayılanı</string>
+    <string name="amoled_theme_setting">Siyah Tema</string>
+    <string name="amoled_theme_desc">Siyah AMOLED temasını etkinleştir</string>
+    <string name="theme_dialog_apply_button">Uygula</string>
+    <string name="material_you_setting" translatable="false">Material You</string>
+    <string name="material_you_setting_desc">Temayı duvar kağıdınıza göre değiştirin (Yalnızca A12+)</string>
+    <string name="material_you_error">Bu özellik yalnızca Android 12 ve üstü cihazlar içindir.</string>
+    <string name="goal_card_setting">Hedef Kartı Stili</string>
+    <string name="preview">Preview</string>
+    <string name="preview_example_title">Home Decorations</string>
+    <string name="preview_example_primary_text">You\'re off to a great start! Currently saved %1$s out of %2$s</string>
+    <string name="preview_example_secondary_text">You have until 26/05/2023 (85) days left. You need to save around %1$s/day, %2$s/week, %3$s/month</string>
+    <string name="goal_card_option1">Klasik</string>
+    <string name="goal_card_option2">Kompakt</string>
+    <string name="locales_setting_title">Yerel</string>
+    <string name="app_locale_setting">Varsayılan Yerelleştirme</string>
+    <string name="app_locale_setting_desc">Tercih ettiğiniz yerelleştirmeyi seçin</string>
+    <string name="date_format_setting">Tarih Biçimi</string>
+    <string name="date_format_dialog_title">Tarih Biçimini Değiştir</string>
+    <string name="preferred_currency_setting">Tercih Edilen Para Birimi</string>
+    <string name="currency_dialog_title">Tercih Edilen Para Birimini Seç</string>
+    <string name="search_currency">Search currency</string>
+    <string name="search">Search</string>
+    <string name="security_settings_title">Güvenlik</string>
+    <string name="app_lock_setting">Biyometrik Kilit</string>
+    <string name="app_lock_setting_desc">Piggo\'in kilidini açmak için parmak izini ya da ekran kilidini kullan</string>
+    <string name="misc_setting_title">Diğer</string>
+    <string name="license_setting">Lisans &amp; Sözleşme</string>
+    <string name="license_setting_desc">Açık kaynak lisans bilgilerini göster.</string>
+    <string name="app_info_setting">Uygulama Bilgileri</string>
+    <string name="app_info_setting_desc">Uygulama versiyonunu ve faydalı linkleri göster.</string>
+    <!-- Accessibility strings for settings -->
+    <string name="switch_action_close">Kapat</string>
+    <string name="switch_action_open">Aç</string>
+    <string name="switch_state_close">kapalı</string>
+    <string name="switch_state_open">açık</string>
+    <string name="navigate_back_desc">Geri git</string>
+    <!-- Goal Card Style -->
+    <string name="goal_card_settings_header">Hedef Stili</string>
+    <string name="goal_card_settings_tip">İpucu! Kompakt tarzda bir kartı sola veya sağa kaydırarak bir tasarruf hedefini düzenleyebilir veya silebilirsiniz.</string>
+    <!-- OSL Screen -->
+    <string name="osl_screen_header">Açık Kaynak Kütüphaneleri</string>
+    <!-- About Screen -->
+    <string name="about_screen_header">Hakkında</string>
+    <string name="about_readme_title">README</string>
+    <string name="about_readme_desc">Github deposuna ve uygulamanın README\'sine göz at.</string>
+    <string name="about_website_title">Web Sitesi</string>
+    <string name="about_website_desc">Daha fazla bilgi için web sitemizi ziyaret edin ve diğer uygulamalarımızı ve projelerimizi keşfedin!</string>
+    <string name="about_privacy_title">Gizlilik Sözleşmesi</string>
+    <string name="about_privacy_desc">Github\'da güncel gizlilik sözleşmemizi ve kullanım koşullarını oku.</string>
+    <string name="about_gh_issue_title">Github Sorunları</string>
+    <string name="about_gh_issue_desc">Github\'da bir sorun oluşturarak hataları bildirin ya da özellik talep edin.</string>
+    <string name="about_telegram_title">Telegram Grubu</string>
+    <string name="about_telegram_desc">Fikirlerinizi paylaşmak ya da sadece sohbet etmek için Telegram\'da bize katılın!</string>
+    <string name="about_support_title">Gelişimi Destekle</string>
+    <string name="about_support_desc">Çalışmalarım için bana birkaç kurabiye hediye etmeyi düşünüyorsanız, buraya tıklayarak bana bazı satın alabilirsiniz.</string>
+    <string name="about_version_title">Versiyon</string>
+    <string name="about_version_desc">Versiyon-%s</string>
+    <!-- Widget Screen -->
+    <string name="widget_config_screen_header">Hedef Seç</string>
+    <string name="goal_widget_desc">%s biriktirildi</string>
+    <!-- Goal Reminders -->
+    <string name="notification_permission_error">Lütfen bildirim izni ver! 😾</string>
+    <string name="reminder_notification_desc">Ne kadar çok tasarruf edersen, hedefine o kadar çabuk ulaşırsın! 💰</string>
+    <string name="dismiss_notification_button">Görmezden gel</string>
+    <string name="notification_deposited_title">Harika iş 🎉</string>
+    <string name="notification_deposited_desc">%s başarıyla yatırıldı!</string>
+    <string name="auto_backup_settings_title">Otomatik Yedekler</string>
+    <string name="auto_backup_setting">Otomatik Yedekleri Aç</string>
+    <string name="auto_backup_setting_desc">Verilerini otomatik olarak seçilen klasöre yedekler</string>
+    <string name="auto_backup_directory_setting">Yedekleme Klasörü</string>
+    <string name="auto_backup_directory_setting_desc">Yedeklerin kaydedileceği bir klasör seç</string>
+    <string name="auto_backup_interval_setting">Yedek Aralığı</string>
+    <string name="auto_backup_interval_days">Her %d günde bir</string>
+    <string name="auto_backup_max_keep_setting">Tutulacak Maksimum Yedek</string>
+    <string name="auto_backup_max_keep_count">%d Yedek</string>
+    <string name="auto_backup_last_time_title">Son Yedek</string>
+    <string name="auto_backup_last_time_format">Son yedek: %s</string>
+    <string name="auto_backup_never">Asla</string>
+</resources>
