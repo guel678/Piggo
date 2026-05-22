@@ -45,6 +45,9 @@ sealed class OtherScreens : BaseScreen() {
     data object PrivacyPolicyScreen
 
     @Serializable
+    data object PremiumScreen
+
+    @Serializable
     data object OSLScreen
 
     @Serializable
@@ -59,4 +62,3 @@ sealed class OtherScreens : BaseScreen() {
     @Serializable
     data object WelcomeScreen : OtherScreens()
 }
-

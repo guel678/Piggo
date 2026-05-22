@@ -6,6 +6,20 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="unknown_error">Oops! Something went wrong</string>
+    <string name="premium_screen_header">Piggo Premium</string>
+    <string name="premium_title">Unlock Piggo Premium</string>
+    <string name="premium_subtitle">Start free with up to 3 savings goals. Upgrade once to unlock all saving tools.</string>
+    <string name="premium_buy_button">Unlock for %s</string>
+    <string name="premium_restore_button">Restore purchase</string>
+    <string name="premium_unlocked">Premium is active on this device</string>
+    <string name="premium_product_unavailable">Premium will be available after the Play Store product is configured.</string>
+    <string name="premium_feature_unlimited_goals">Unlimited savings goals and stashes</string>
+    <string name="premium_feature_transfers">Transfer money between stashes</string>
+    <string name="premium_feature_history">Full dashboard transaction history</string>
+    <string name="premium_feature_backup">Backup and restore your savings data</string>
+    <string name="premium_feature_reminders">Goal reminders for better saving habits</string>
+    <string name="premium_goal_limit_message">Free plan includes up to 3 goals. Upgrade to Piggo Premium for unlimited goals.</string>
+    <string name="premium_feature_locked_message">Upgrade to Piggo Premium to use this feature.</string>
 
     <!-- Navigation Drawer -->
     <string name="drawer_dashboard">Dashboard</string>
@@ -232,6 +246,8 @@
     <string name="search_currency">Search currency</string>
     <string name="search">Search</string>
     <string name="security_settings_title">Security</string>
+    <string name="premium_setting">Piggo Premium</string>
+    <string name="premium_setting_desc">Unlock unlimited goals and premium saving tools</string>
     <string name="app_lock_setting">Biometric Lock</string>
     <string name="app_lock_setting_desc">Use your fingerprint or screen lock password to unlock Piggo</string>
     <string name="misc_setting_title">Miscellaneous</string>

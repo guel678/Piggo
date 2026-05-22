@@ -47,6 +47,7 @@ class PreferenceUtil(context: Context) {
         const val DATE_STYLE_INT = "date_style"
         const val APP_LOCK_BOOL = "app_lock"
         const val GOAL_CARD_STYLE_INT = "goal_card_style"
+        const val PREMIUM_UNLOCKED_BOOL = "premium_unlocked"
 
         // Goal filter preferences
         const val GOAL_FILTER_FIELD_INT = "goal_filter_field"

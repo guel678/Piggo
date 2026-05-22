@@ -51,6 +51,7 @@ import androidx.compose.material.icons.filled.LocalPolice
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Style
+import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -162,6 +163,9 @@ fun SettingsScreen(navController: NavController) {
 
             /** Security Settings. */
             item { SecuritySettings(viewModel = viewModel) }
+
+            /** Premium Settings */
+            item { PremiumSettings(navController = navController) }
 
             /** About Setting */
             item { MiscSettings(navController = navController) }
@@ -539,6 +543,19 @@ private fun SecuritySettings(viewModel: SettingsViewModel) {
                     viewModel.setAppLock(false)
                 }
             })
+    }
+}
+
+@Composable
+private fun PremiumSettings(navController: NavController) {
+    SettingsContainer {
+        SettingsCategory(title = stringResource(id = R.string.premium_screen_header))
+        SettingsItem(
+            title = stringResource(id = R.string.premium_setting),
+            description = stringResource(id = R.string.premium_setting_desc),
+            icon = Icons.Filled.WorkspacePremium,
+            onClick = { navController.navigate(OtherScreens.PremiumScreen) }
+        )
     }
 }
 

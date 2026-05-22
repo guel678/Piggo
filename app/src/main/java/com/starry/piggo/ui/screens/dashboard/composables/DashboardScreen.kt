@@ -47,6 +47,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -79,6 +80,7 @@ import com.starry.piggo.ui.navigation.DrawerScreens
 import com.starry.piggo.ui.navigation.OtherScreens
 import com.starry.piggo.ui.screens.dashboard.DashboardViewModel
 import com.starry.piggo.ui.screens.home.composables.HomeDrawer
+import com.starry.piggo.ui.screens.premium.PremiumViewModel
 import com.starry.piggo.ui.theme.piggoFont
 import com.starry.piggo.utils.Constants
 import com.starry.piggo.utils.ImageUtils
@@ -104,9 +106,11 @@ private enum class DashboardSheetMode {
 fun DashboardScreen(navController: NavController) {
     val context = LocalContext.current
     val viewModel: DashboardViewModel = hiltViewModel()
+    val premiumViewModel: PremiumViewModel = hiltViewModel()
     val settingsVM = (context.getActivity() as MainActivity).settingsViewModel
     val goals by viewModel.goalsList.observeAsState(emptyList())
     val deposits by viewModel.depositsList.observeAsState(emptyList())
+    val premiumState by premiumViewModel.premiumState.collectAsState()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
@@ -179,11 +183,21 @@ fun DashboardScreen(navController: NavController) {
                         },
                         onTransferClicked = {
                             view.weakHapticFeedback()
-                            sheetMode = DashboardSheetMode.Transfer
+                            if (premiumState.isPremium) {
+                                sheetMode = DashboardSheetMode.Transfer
+                            } else {
+                                context.getString(R.string.premium_feature_locked_message).toToast(context)
+                                navController.navigate(OtherScreens.PremiumScreen)
+                            }
                         },
                         onHistoryClicked = {
                             view.weakHapticFeedback()
-                            sheetMode = DashboardSheetMode.History
+                            if (premiumState.isPremium) {
+                                sheetMode = DashboardSheetMode.History
+                            } else {
+                                context.getString(R.string.premium_feature_locked_message).toToast(context)
+                                navController.navigate(OtherScreens.PremiumScreen)
+                            }
                         }
                     )
                 }

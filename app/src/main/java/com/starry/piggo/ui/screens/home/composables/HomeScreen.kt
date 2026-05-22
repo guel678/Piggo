@@ -69,6 +69,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -102,16 +103,19 @@ import com.psoffritti.taptargetcompose.TapTargetStyle
 import com.psoffritti.taptargetcompose.TextDefinition
 import com.starry.piggo.MainActivity
 import com.starry.piggo.R
+import com.starry.piggo.billing.PremiumRepository
 import com.starry.piggo.database.core.GoalWithTransactions
 import com.starry.piggo.ui.navigation.OtherScreens
 import com.starry.piggo.ui.screens.home.FilterField
 import com.starry.piggo.ui.screens.home.FilterSortType
 import com.starry.piggo.ui.screens.home.HomeViewModel
 import com.starry.piggo.ui.screens.home.SearchBarState
+import com.starry.piggo.ui.screens.premium.PremiumViewModel
 import com.starry.piggo.ui.theme.piggoFont
 import com.starry.piggo.utils.displayName
 import com.starry.piggo.utils.getActivity
 import com.starry.piggo.utils.isScrollingUp
+import com.starry.piggo.utils.toToast
 import com.starry.piggo.utils.weakHapticFeedback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -124,9 +128,11 @@ import java.util.Locale
 fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
+    val premiumViewModel: PremiumViewModel = hiltViewModel()
     val settingsVM = (context.getActivity() as MainActivity).settingsViewModel
 
     val allGoalState = viewModel.goalsList.observeAsState(emptyList())
+    val premiumState by premiumViewModel.premiumState.collectAsState()
     val showFilterSheet = remember { mutableStateOf(false) }
     val filterSheetState = rememberModalBottomSheetState()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -226,6 +232,12 @@ fun HomeScreen(navController: NavController) {
                             ),
                         ),
                         lazyListState = lazyListState,
+                        canCreateGoal = premiumState.isPremium ||
+                                allGoalState.value.size < PremiumRepository.FREE_GOAL_LIMIT,
+                        onGoalLimitReached = {
+                            context.getString(R.string.premium_goal_limit_message).toToast(context)
+                            navController.navigate(OtherScreens.PremiumScreen)
+                        },
                         navController = navController
                     )
                 }
@@ -401,6 +413,8 @@ private fun AllGoalsList(
 private fun HomeExtendedFAB(
     modifier: Modifier,
     lazyListState: LazyListState,
+    canCreateGoal: Boolean,
+    onGoalLimitReached: () -> Unit,
     navController: NavController
 ) {
     val isFabVisible = lazyListState.isScrollingUp()
@@ -422,7 +436,11 @@ private fun HomeExtendedFAB(
             modifier = modifier.padding(end = 10.dp, bottom = 12.dp),
             onClick = {
                 view.weakHapticFeedback()
-                navController.navigate(OtherScreens.InputScreen())
+                if (canCreateGoal) {
+                    navController.navigate(OtherScreens.InputScreen())
+                } else {
+                    onGoalLimitReached()
+                }
             },
             elevation = FloatingActionButtonDefaults.elevation(8.dp)
         ) {

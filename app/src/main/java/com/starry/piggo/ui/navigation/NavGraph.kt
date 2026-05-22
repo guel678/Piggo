@@ -41,6 +41,7 @@ import com.starry.piggo.ui.screens.home.composables.HomeScreen
 import com.starry.piggo.ui.screens.info.composables.GoalInfoScreen
 import com.starry.piggo.ui.screens.input.composables.InputScreen
 import com.starry.piggo.ui.screens.other.CongratsScreen
+import com.starry.piggo.ui.screens.premium.composables.PremiumScreen
 import com.starry.piggo.ui.screens.settings.composables.AboutScreen
 import com.starry.piggo.ui.screens.settings.composables.GoalCardStyle
 import com.starry.piggo.ui.screens.settings.composables.OSLScreen
@@ -196,6 +197,14 @@ fun NavGraph(
             popExitTransition = { popExitTransition() },
         ) {
             PrivacyPolicyScreen(navController = navController)
+        }
+
+        /** Premium Screen */
+        composable<OtherScreens.PremiumScreen>(
+            enterTransition = { enterTransition() },
+            popExitTransition = { popExitTransition() },
+        ) {
+            PremiumScreen(navController = navController)
         }
 
     }

@@ -81,6 +81,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,7 +107,9 @@ import coil.compose.AsyncImage
 import com.starry.piggo.R
 import com.starry.piggo.backup.BackupType
 import com.starry.piggo.ui.common.TipCardNoDismiss
+import com.starry.piggo.ui.navigation.OtherScreens
 import com.starry.piggo.ui.screens.backups.BackupViewModel
+import com.starry.piggo.ui.screens.premium.PremiumViewModel
 import com.starry.piggo.ui.screens.settings.composables.SettingsItem
 import com.starry.piggo.ui.theme.piggoFont
 import com.starry.piggo.utils.toToast
@@ -127,6 +130,8 @@ fun BackupScreen(navController: NavController) {
     val view = LocalView.current
     val context = LocalContext.current
     val viewModel = hiltViewModel<BackupViewModel>()
+    val premiumViewModel = hiltViewModel<PremiumViewModel>()
+    val premiumState = premiumViewModel.premiumState.collectAsState().value
 
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -245,14 +250,24 @@ fun BackupScreen(navController: NavController) {
                 paddingValues = it,
                 viewModel = viewModel,
                 onBackupClicked = {
-                    ftpButtonText.value =
-                        context.getString(R.string.backup_ftp_create_button)
-                    showFileTypePicker.value = true
+                    if (premiumState.isPremium) {
+                        ftpButtonText.value =
+                            context.getString(R.string.backup_ftp_create_button)
+                        showFileTypePicker.value = true
+                    } else {
+                        context.getString(R.string.premium_feature_locked_message).toToast(context)
+                        navController.navigate(OtherScreens.PremiumScreen)
+                    }
                 },
                 onRestoreClicked = {
-                    ftpButtonText.value =
-                        context.getString(R.string.backup_ftp_restore_button)
-                    showFileTypePicker.value = true
+                    if (premiumState.isPremium) {
+                        ftpButtonText.value =
+                            context.getString(R.string.backup_ftp_restore_button)
+                        showFileTypePicker.value = true
+                    } else {
+                        context.getString(R.string.premium_feature_locked_message).toToast(context)
+                        navController.navigate(OtherScreens.PremiumScreen)
+                    }
                 }
             )
         })
