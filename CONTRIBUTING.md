@@ -60,8 +60,8 @@ choose from:
 Fork this project, import and compile it with the latest version
 of [Android Studio](https://developer.android.com/studio/).
 
-[issues]: https://github.com/Pool-Of-Tears/Piggo/issues/new/choose
+[issues]: https://github.com/guel678/Piggo/issues/new/choose
 
-[feature-req]: https://github.com/Pool-Of-Tears/Piggo/issues/new?assignees=&labels=enhancement&projects=&template=--feature-request.yml&title=%5BFeature+Request%5D
+[feature-req]: https://github.com/guel678/Piggo/issues/new?assignees=&labels=enhancement&projects=&template=--feature-request.yml&title=%5BFeature+Request%5D
 
 [conv-commits]:https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index

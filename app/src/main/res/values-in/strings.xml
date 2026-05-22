@@ -199,8 +199,6 @@
     <string name="about_privacy_desc">Baca kebijakan privasi dan ketentuan layanan terbaru kami di GitHub</string>
     <string name="about_gh_issue_title">Laporkan Masalah</string>
     <string name="about_gh_issue_desc">Kirim laporan bug atau permintaan fitur dengan membuat \"issue\" di GitHub</string>
-    <string name="about_telegram_title">Grup Telegram</string>
-    <string name="about_telegram_desc">Bergabunglah dengan kami di Telegram untuk berbagi ide atau sekadar mengobrol!</string>
     <string name="about_support_title">Dukung Pengembangan</string>
     <string name="about_support_desc">Jika Anda merasa karya saya layak diapresiasi, Anda bisa mentraktir saya dengan mengeklik di sini</string>
     <string name="about_version_title">Versi</string>

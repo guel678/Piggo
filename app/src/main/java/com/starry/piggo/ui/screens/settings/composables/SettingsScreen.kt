@@ -365,7 +365,7 @@ private fun LocaleSettings(viewModel: SettingsViewModel) {
         // App locale setting is only available on Android 13+
         // Also, it's not functional on MIUI devices even on Android 13,
         // Thanks to Xiaomi's broken implementation of standard Android APIs.
-        // See: https://github.com/Pool-Of-Tears/Piggo/issues/130 for more information.
+        // See: https://github.com/guel678/Piggo/issues/130 for more information.
         val shouldShowAppLocaleSetting = remember {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !Utils.isMiui()
         }

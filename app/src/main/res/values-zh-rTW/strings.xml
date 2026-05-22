@@ -210,8 +210,6 @@
     <string name="about_privacy_desc">在 GitHub 上閱讀我們最新的隱私權政策和服務條款。</string>
     <string name="about_gh_issue_title">GitHub Issue</string>
     <string name="about_gh_issue_desc">透過在 GitHub 上建立 Issue 來回報錯誤或提供功能建議。</string>
-    <string name="about_telegram_title">Telegram 群組</string>
-    <string name="about_telegram_desc">加入我們的 Telegram 以分享您的想法或只是來聊聊天！</string>
     <string name="about_support_title">支援開發</string>
     <string name="about_support_desc">如果您認為我為我的工作應得一些鼓勵，您可以點選這裡為我買一些餅乾。</string>
     <string name="about_version_title">版本</string>

@@ -210,8 +210,6 @@
     <string name="about_privacy_desc">Github\'da güncel gizlilik sözleşmemizi ve kullanım koşullarını oku.</string>
     <string name="about_gh_issue_title">Github Sorunları</string>
     <string name="about_gh_issue_desc">Github\'da bir sorun oluşturarak hataları bildirin ya da özellik talep edin.</string>
-    <string name="about_telegram_title">Telegram Grubu</string>
-    <string name="about_telegram_desc">Fikirlerinizi paylaşmak ya da sadece sohbet etmek için Telegram\'da bize katılın!</string>
     <string name="about_support_title">Gelişimi Destekle</string>
     <string name="about_support_desc">Çalışmalarım için bana birkaç kurabiye hediye etmeyi düşünüyorsanız, buraya tıklayarak bana bazı satın alabilirsiniz.</string>
     <string name="about_version_title">Versiyon</string>

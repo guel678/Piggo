@@ -207,8 +207,6 @@
     <string name="about_privacy_desc">Leia nossa política de privacidade mais recente e termos de serviço no GitHub.</string>
     <string name="about_gh_issue_title">Problemas no GitHub</string>
     <string name="about_gh_issue_desc">Envie relatórios de bugs ou solicitações de recursos criando um problema no GitHub.</string>
-    <string name="about_telegram_title">Grupo no Telegram</string>
-    <string name="about_telegram_desc">Junte-se a nós no telegrama para compartilhar suas ideias ou apenas para conversar!</string>
     <string name="about_support_title">Apoie o Desenvolvimento</string>
     <string name="about_support_desc">Se você acha que mereço biscoitos pelo meu trabalho, você pode me comprar alguns clicando aqui.</string>
     <string name="about_version_title">Versão</string>

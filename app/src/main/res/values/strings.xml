@@ -279,8 +279,6 @@
     <string name="about_privacy_desc">Read Piggo\'s privacy policy inside the app</string>
     <string name="about_gh_issue_title">GitHub Issues</string>
     <string name="about_gh_issue_desc">Submit bug reports or feature requests by creating an issue on GitHub</string>
-    <string name="about_telegram_title">Telegram Group</string>
-    <string name="about_telegram_desc">Join us at telegram to share your ideas or just to chat!</string>
     <string name="about_support_title">Support Development</string>
     <string name="about_support_desc">If you think I deserve cookies for my work, you can buy me some by clicking here</string>
     <string name="about_version_title">Version</string>

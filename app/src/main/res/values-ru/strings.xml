@@ -208,8 +208,6 @@
     <string name="about_privacy_desc">Ознакомьтесь с нашей последней политикой конфиденциальности и условиями обслуживания на GitHub.</string>
     <string name="about_gh_issue_title">Багтрекер GitHub</string>
     <string name="about_gh_issue_desc">Отправляйте отчеты об ошибках или запросы на добавление функциональностей на Github.</string>
-    <string name="about_telegram_title">Группа в Telegram</string>
-    <string name="about_telegram_desc">Присоединяйтесь к нам в telegram, чтобы поделиться своими идеями или просто пообщаться!</string>
     <string name="about_support_title">Поддержка разработки</string>
     <string name="about_support_desc">Если вы считаете что я заслуживаю печенек за свою работу, вы можете купить мне их нажав здесь.</string>
     <string name="about_version_title">Версия</string>
