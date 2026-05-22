@@ -35,6 +35,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.starry.piggo.ui.screens.archive.composables.ArchiveScreen
 import com.starry.piggo.ui.screens.backups.composables.BackupScreen
+import com.starry.piggo.ui.screens.dashboard.composables.DashboardScreen
 import com.starry.piggo.ui.screens.dwscreen.composables.DWScreen
 import com.starry.piggo.ui.screens.home.composables.HomeScreen
 import com.starry.piggo.ui.screens.info.composables.GoalInfoScreen
@@ -65,6 +66,16 @@ fun NavGraph(
             popEnterTransition = { popEnterTransition() },
         ) {
             WelcomeScreen(navController = navController)
+        }
+
+        /** Dashboard Screen */
+        composable<DrawerScreens.Dashboard>(
+            enterTransition = { enterTransition() },
+            exitTransition = { exitTransition() },
+            popEnterTransition = { popEnterTransition() },
+            popExitTransition = { popExitTransition() },
+        ) {
+            DashboardScreen(navController)
         }
 
         /** Home Screen */

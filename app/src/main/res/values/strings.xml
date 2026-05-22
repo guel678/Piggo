@@ -8,6 +8,7 @@
     <string name="unknown_error">Oops! Something went wrong</string>
 
     <!-- Navigation Drawer -->
+    <string name="drawer_dashboard">Dashboard</string>
     <string name="drawer_home">Home</string>
     <string name="drawer_archive">Archive</string>
     <string name="drawer_backup">Backup</string>
@@ -41,6 +42,15 @@
     <string name="app_lock_unable_to_authenticate">App-lock is disabled because the device is unable to authenticate</string>
 
     <!-- Home Screen -->
+    <string name="dashboard_screen_header">Dashboard</string>
+    <string name="dashboard_total_saved">Available Balance</string>
+    <string name="dashboard_target_balance">Target Balance</string>
+    <string name="dashboard_progress">Progress</string>
+    <string name="dashboard_deposit">Deposit</string>
+    <string name="dashboard_goals">Goals</string>
+    <string name="dashboard_history">History</string>
+    <string name="dashboard_active_goals">Active Goals</string>
+    <string name="dashboard_no_goals">No goals yet</string>
     <string name="home_screen_header">Savings</string>
     <string name="menu_button_desc">Open side menu</string>
     <string name="filter_button_desc">Filter your saving goals</string>

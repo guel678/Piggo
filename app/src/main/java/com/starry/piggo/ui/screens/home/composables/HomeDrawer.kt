@@ -68,6 +68,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.starry.piggo.R
@@ -86,6 +87,8 @@ fun HomeDrawer(drawerState: DrawerState, navController: NavController, themeMode
     val items = DrawerScreens.getAllItems()
     val selectedItem = remember { mutableStateOf(items[0]) }
     val coroutineScope = rememberCoroutineScope()
+    val navBackStackEntry = navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry.value?.destination?.route
 
     ModalDrawerSheet(
         modifier = Modifier.width(295.dp),
@@ -107,7 +110,7 @@ fun HomeDrawer(drawerState: DrawerState, navController: NavController, themeMode
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
             )
 
-            DrawerItems(items, selectedItem, drawerState, navController, coroutineScope)
+            DrawerItems(items, selectedItem, currentRoute, drawerState, navController, coroutineScope)
         }
     }
 }
@@ -157,6 +160,7 @@ private fun DrawerHeader(themeMode: ThemeMode) {
 private fun DrawerItems(
     items: List<DrawerScreens>,
     selectedItem: MutableState<DrawerScreens>,
+    currentRoute: String?,
     drawerState: DrawerState,
     navController: NavController,
     coroutineScope: CoroutineScope
@@ -175,7 +179,11 @@ private fun DrawerItems(
                     text = stringResource(id = item.nameResId), fontFamily = piggoFont
                 )
             },
-            selected = item == selectedItem.value,
+            selected = if (currentRoute != null) {
+                currentRoute == item::class.qualifiedName
+            } else {
+                item == selectedItem.value
+            },
             onClick = {
                 view.weakHapticFeedback()
                 coroutineScope.launch {
