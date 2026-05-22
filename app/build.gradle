@@ -23,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.starry.piggo"
+        applicationId "piggo.saving.ph"
         minSdk 24
         targetSdk 36
         versionCode 100

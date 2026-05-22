@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.starry.piggo", appContext.packageName)
+        assertEquals("piggo.saving.ph", appContext.packageName)
     }
 }

@@ -48,7 +48,7 @@ Piggo is a simple Android savings tracker for creating money goals, tracking dep
 
 ## Project Info
 
-- Package: `com.starry.piggo`
+- Package: `piggo.saving.ph`
 - Min SDK: 24
 - Target SDK: 36
 - Version: `1.0.0`
