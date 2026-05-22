@@ -45,6 +45,7 @@ import com.starry.piggo.ui.navigation.DrawerScreens
 import com.starry.piggo.ui.navigation.OtherScreens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -83,9 +84,12 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            welcomeDataStore.readOnBoardingState().collect { completed ->
+            welcomeDataStore.readOnBoardingState().catch {
+                _startDestination.value = OtherScreens.WelcomeScreen
+                _isLoading.value = false
+            }.collect { completed ->
                 if (completed) {
-                    _startDestination.value = DrawerScreens.Home
+                    _startDestination.value = DrawerScreens.Dashboard
                 } else {
                     _startDestination.value = OtherScreens.WelcomeScreen
                 }
@@ -103,7 +107,9 @@ class MainViewModel @Inject constructor(
 
     fun refreshReminders() {
         viewModelScope.launch(Dispatchers.IO) {
-            reminderManager.checkAndScheduleReminders(goalDao.getAllGoals())
+            runCatching {
+                reminderManager.checkAndScheduleReminderIds(goalDao.getReminderGoalIds())
+            }
         }
     }
 
@@ -114,11 +120,9 @@ class MainViewModel @Inject constructor(
         onComplete: (List<ShortcutInfo>) -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            // get all goals and filter top goals up to limit by priority
-            val goals = goalDao.getAllGoals()
-            val topGoals = goals.sortedByDescending { goalItem ->
-                goalItem.goal.priority.value
-            }.take(limit - 1).map { it.goal } // -1 for new goal shortcut
+            val topGoals = runCatching {
+                goalDao.getShortcutGoals((limit - 1).coerceAtLeast(0))
+            }.getOrDefault(emptyList())
 
             val newGoalShortcut = ShortcutInfo.Builder(context, "new_goal").apply {
                 setShortLabel(context.getString(R.string.new_goal_fab))

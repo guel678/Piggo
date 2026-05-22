@@ -58,7 +58,7 @@ class WelcomeDataStore(context: Context) {
                 if (exception is IOException) {
                     emit(emptyPreferences())
                 } else {
-                    throw exception
+                    emit(emptyPreferences())
                 }
             }
             .map { preferences ->

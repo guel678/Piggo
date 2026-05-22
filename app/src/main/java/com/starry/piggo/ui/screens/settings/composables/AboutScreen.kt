@@ -57,22 +57,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.starry.piggo.BuildConfig
 import com.starry.piggo.R
+import com.starry.piggo.ui.navigation.OtherScreens
 import com.starry.piggo.ui.theme.piggoFont
-import com.starry.piggo.utils.Utils
 import com.starry.piggo.utils.weakHapticFeedback
 import kotlinx.coroutines.launch
-
-sealed class AboutLinks(val url: String) {
-    data object PrivacyPolicy :
-        AboutLinks("https://github.com/Pool-Of-Tears/Piggo/blob/main/legal/PRIVACY-POLICY.md")
-}
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(navController: NavController) {
     val view = LocalView.current
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val clipboard = LocalClipboard.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -114,7 +107,7 @@ fun AboutScreen(navController: NavController) {
                     title = stringResource(id = R.string.about_privacy_title),
                     description = stringResource(id = R.string.about_privacy_desc),
                     icon = Icons.Filled.PrivacyTip,
-                    onClick = { Utils.openWebLink(context, AboutLinks.PrivacyPolicy.url) }
+                    onClick = { navController.navigate(OtherScreens.PrivacyPolicyScreen) }
                 )
             }
             item {

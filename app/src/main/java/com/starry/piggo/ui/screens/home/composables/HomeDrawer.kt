@@ -51,9 +51,6 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,15 +74,12 @@ import com.starry.piggo.ui.screens.settings.ThemeMode
 import com.starry.piggo.ui.theme.piggoFont
 import com.starry.piggo.utils.weakHapticFeedback
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 @Composable
 fun HomeDrawer(drawerState: DrawerState, navController: NavController, themeMode: ThemeMode) {
     val items = DrawerScreens.getAllItems()
-    val selectedItem = remember { mutableStateOf(items[0]) }
     val coroutineScope = rememberCoroutineScope()
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry.value?.destination?.route
@@ -110,7 +104,7 @@ fun HomeDrawer(drawerState: DrawerState, navController: NavController, themeMode
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
             )
 
-            DrawerItems(items, selectedItem, currentRoute, drawerState, navController, coroutineScope)
+            DrawerItems(items, currentRoute, drawerState, navController, coroutineScope)
         }
     }
 }
@@ -159,7 +153,6 @@ private fun DrawerHeader(themeMode: ThemeMode) {
 @Composable
 private fun DrawerItems(
     items: List<DrawerScreens>,
-    selectedItem: MutableState<DrawerScreens>,
     currentRoute: String?,
     drawerState: DrawerState,
     navController: NavController,
@@ -167,6 +160,9 @@ private fun DrawerItems(
 ) {
     val view = LocalView.current
     items.forEach { item ->
+        val itemRoute = item::class.qualifiedName
+        val isSelected = currentRoute == itemRoute
+
         NavigationDrawerItem(
             icon = {
                 Icon(
@@ -179,21 +175,16 @@ private fun DrawerItems(
                     text = stringResource(id = item.nameResId), fontFamily = piggoFont
                 )
             },
-            selected = if (currentRoute != null) {
-                currentRoute == item::class.qualifiedName
-            } else {
-                item == selectedItem.value
-            },
+            selected = isSelected,
             onClick = {
                 view.weakHapticFeedback()
                 coroutineScope.launch {
                     drawerState.close()
-                    if (item != selectedItem.value) {
-                        withContext(Dispatchers.Main) {
-                            navController.navigate(item)
+                    if (!isSelected) {
+                        navController.navigate(item) {
+                            launchSingleTop = true
                         }
                     }
-                    selectedItem.value = item
                 }
             },
             modifier = Modifier

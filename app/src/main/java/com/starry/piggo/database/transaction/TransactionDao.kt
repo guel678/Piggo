@@ -28,7 +28,19 @@ package com.starry.piggo.database.transaction
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
+
+data class DashboardDepositSummary(
+    val transactionId: Long,
+    val ownerGoalId: Long,
+    val goalTitle: String,
+    val goalIconId: String?,
+    val timeStamp: Long,
+    val amount: Double,
+    val notes: String
+)
 
 @Dao
 interface TransactionDao {
@@ -39,6 +51,17 @@ interface TransactionDao {
      */
     @Insert
     suspend fun insertTransaction(transaction: Transaction)
+
+    @Query(
+        "SELECT tx.transactionId AS transactionId, tx.ownerGoalId AS ownerGoalId, " +
+                "goal.title AS goalTitle, goal.goalIconId AS goalIconId, " +
+                "tx.timeStamp AS timeStamp, tx.amount AS amount, tx.notes AS notes " +
+                "FROM `transaction` AS tx " +
+                "INNER JOIN saving_goal AS goal ON goal.goalId = tx.ownerGoalId " +
+                "WHERE tx.type = 0 " +
+                "ORDER BY tx.timeStamp DESC"
+    )
+    fun getDashboardDeposits(): Flow<List<DashboardDepositSummary>>
 
     /**
      * Delete transaction.

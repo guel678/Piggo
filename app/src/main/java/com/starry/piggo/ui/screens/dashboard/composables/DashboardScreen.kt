@@ -1,28 +1,3 @@
-/**
- * MIT License
- *
- * Copyright (c) [2022 - Present] StÉ‘rry ShivÉ‘m
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
-
 package com.starry.piggo.ui.screens.dashboard.composables
 
 import androidx.compose.foundation.background
@@ -35,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -42,39 +18,51 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Savings
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,32 +72,47 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.starry.piggo.MainActivity
 import com.starry.piggo.R
-import com.starry.piggo.database.core.GoalWithTransactions
+import com.starry.piggo.database.goal.DashboardGoalSummary
+import com.starry.piggo.database.transaction.DashboardDepositSummary
 import com.starry.piggo.database.transaction.TransactionType
 import com.starry.piggo.ui.navigation.DrawerScreens
 import com.starry.piggo.ui.navigation.OtherScreens
-import com.starry.piggo.ui.screens.home.HomeViewModel
+import com.starry.piggo.ui.screens.dashboard.DashboardViewModel
 import com.starry.piggo.ui.screens.home.composables.HomeDrawer
 import com.starry.piggo.ui.theme.piggoFont
-import com.starry.piggo.utils.GoalTextUtils
+import com.starry.piggo.utils.Constants
+import com.starry.piggo.utils.ImageUtils
 import com.starry.piggo.utils.NumberUtils
+import com.starry.piggo.utils.Utils
 import com.starry.piggo.utils.getActivity
+import com.starry.piggo.utils.toToast
 import com.starry.piggo.utils.weakHapticFeedback
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
+import java.util.Date
 
+private enum class DashboardSheetMode {
+    Deposit,
+    Transfer,
+    History
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(navController: NavController) {
     val context = LocalContext.current
-    val viewModel: HomeViewModel = hiltViewModel()
+    val viewModel: DashboardViewModel = hiltViewModel()
     val settingsVM = (context.getActivity() as MainActivity).settingsViewModel
     val goals by viewModel.goalsList.observeAsState(emptyList())
+    val deposits by viewModel.depositsList.observeAsState(emptyList())
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     val view = LocalView.current
     val currencyCode = remember { viewModel.getDefaultCurrency().ifBlank { "USD" } }
-    val firstOpenGoal = goals.firstOrNull { it.getCurrentlySavedAmount() < it.goal.targetAmount }
+    var sheetMode by remember { mutableStateOf<DashboardSheetMode?>(null) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -157,24 +160,6 @@ fun DashboardScreen(navController: NavController) {
                         }
                     }
                 )
-            },
-            floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    modifier = Modifier.padding(end = 10.dp, bottom = 12.dp),
-                    onClick = {
-                        view.weakHapticFeedback()
-                        navController.navigate(OtherScreens.InputScreen())
-                    },
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(id = R.string.new_goal_fab),
-                        fontFamily = piggoFont
-                    )
-                }
             }
         ) { padding ->
             LazyColumn(
@@ -182,7 +167,7 @@ fun DashboardScreen(navController: NavController) {
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
                     .padding(padding),
-                verticalArrangement = Arrangement.spacedBy(18.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
                     BalanceCard(
@@ -190,65 +175,38 @@ fun DashboardScreen(navController: NavController) {
                         currencyCode = currencyCode,
                         onDepositClicked = {
                             view.weakHapticFeedback()
-                            firstOpenGoal?.let {
-                                navController.navigate(
-                                    OtherScreens.DWScreen(
-                                        goalId = it.goal.goalId.toString(),
-                                        transactionType = TransactionType.Deposit.name
-                                    )
-                                )
-                            } ?: navController.navigate(OtherScreens.InputScreen())
+                            sheetMode = DashboardSheetMode.Deposit
                         },
-                        onGoalsClicked = {
+                        onTransferClicked = {
                             view.weakHapticFeedback()
-                            navController.navigate(DrawerScreens.Home)
+                            sheetMode = DashboardSheetMode.Transfer
                         },
                         onHistoryClicked = {
                             view.weakHapticFeedback()
-                            goals.firstOrNull()?.let {
-                                navController.navigate(
-                                    OtherScreens.GoalInfoScreen(
-                                        goalId = it.goal.goalId.toString()
-                                    )
-                                )
-                            } ?: navController.navigate(OtherScreens.InputScreen())
+                            sheetMode = DashboardSheetMode.History
                         }
                     )
                 }
 
                 item {
-                    Text(
-                        text = stringResource(id = R.string.dashboard_active_goals),
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        fontFamily = piggoFont,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp
-                    )
+                    SectionTitle(text = stringResource(id = R.string.dashboard_active_goals))
                 }
 
                 if (goals.isEmpty()) {
-                    item {
-                        EmptyGoalCard()
-                    }
+                    item { EmptyCard(text = stringResource(id = R.string.dashboard_no_goals)) }
                 } else {
                     items(
-                        items = goals.take(4),
-                        key = { it.goal.goalId }
+                        items = goals,
+                        key = { "goal-${it.goalId}" }
                     ) { goalItem ->
-                        DashboardGoalCard(
+                        DashboardGoalRow(
                             goalItem = goalItem,
                             currencyCode = currencyCode,
-                            dateText = GoalTextUtils.getRemainingDaysText(
-                                context = context,
-                                goalItem = goalItem,
-                                dateStyle = viewModel.getDateStyle()
-                            ),
+                            dateText = goalItem.remainingDaysText(),
                             onClick = {
                                 view.weakHapticFeedback()
                                 navController.navigate(
-                                    OtherScreens.GoalInfoScreen(
-                                        goalId = goalItem.goal.goalId.toString()
-                                    )
+                                    OtherScreens.GoalInfoScreen(goalId = goalItem.goalId.toString())
                                 )
                             }
                         )
@@ -256,8 +214,62 @@ fun DashboardScreen(navController: NavController) {
                 }
 
                 item {
-                    Spacer(modifier = Modifier.height(96.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
+            }
+        }
+    }
+
+    sheetMode?.let { mode ->
+        ModalBottomSheet(
+            onDismissRequest = { sheetMode = null },
+            sheetState = sheetState
+        ) {
+            when (mode) {
+                DashboardSheetMode.Deposit -> DepositGoalPicker(
+                    goals = goals,
+                    currencyCode = currencyCode,
+                    onGoalSelected = { goal ->
+                        sheetMode = null
+                        navController.navigate(
+                            OtherScreens.DWScreen(
+                                goalId = goal.goalId.toString(),
+                                transactionType = TransactionType.Deposit.name
+                            )
+                        )
+                    }
+                )
+
+                DashboardSheetMode.Transfer -> TransferSheet(
+                    goals = goals,
+                    currencyCode = currencyCode,
+                    onTransfer = { fromGoal, toGoal, amountText ->
+                        viewModel.transfer(
+                            fromGoal = fromGoal,
+                            toGoal = toGoal,
+                            amountText = amountText,
+                            onComplete = { success ->
+                                if (success) {
+                                    sheetMode = null
+                                    context.getString(R.string.dashboard_transfer_successful).toToast(context)
+                                } else {
+                                    context.getString(R.string.dashboard_transfer_error).toToast(context)
+                                }
+                            }
+                        )
+                    }
+                )
+
+                DashboardSheetMode.History -> HistorySheet(
+                    deposits = deposits,
+                    currencyCode = currencyCode,
+                    onDepositSelected = { deposit ->
+                        sheetMode = null
+                        navController.navigate(
+                            OtherScreens.GoalInfoScreen(goalId = deposit.ownerGoalId.toString())
+                        )
+                    }
+                )
             }
         }
     }
@@ -265,50 +277,50 @@ fun DashboardScreen(navController: NavController) {
 
 @Composable
 private fun BalanceCard(
-    goals: List<GoalWithTransactions>,
+    goals: List<DashboardGoalSummary>,
     currencyCode: String,
     onDepositClicked: () -> Unit,
-    onGoalsClicked: () -> Unit,
+    onTransferClicked: () -> Unit,
     onHistoryClicked: () -> Unit
 ) {
-    val totalSaved = goals.sumOf { it.getCurrentlySavedAmount() }
-    val totalTarget = goals.sumOf { it.goal.targetAmount }
+    val totalSaved = goals.sumOf { it.savedAmount }
+    val totalTarget = goals.sumOf { it.targetAmount }
     val progress = if (totalTarget > 0) (totalSaved / totalTarget).toFloat().coerceIn(0f, 1f) else 0f
     val progressPercent = (progress * 100).toInt()
 
     Box(
         modifier = Modifier
-            .padding(horizontal = 24.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 4.dp)
             .fillMaxWidth()
-            .clip(RoundedCornerShape(28.dp))
+            .clip(RoundedCornerShape(22.dp))
             .background(
                 Brush.linearGradient(
                     listOf(
                         MaterialTheme.colorScheme.primaryContainer,
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.88f)
+                        MaterialTheme.colorScheme.primary.copy(alpha = 0.86f)
                     )
                 )
             )
-            .padding(22.dp)
+            .padding(18.dp)
     ) {
         Column {
             Text(
                 text = stringResource(id = R.string.dashboard_total_saved),
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.78f),
                 fontFamily = piggoFont,
-                fontSize = 15.sp
+                fontSize = 13.sp
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = NumberUtils.formatCurrency(totalSaved, currencyCode),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontFamily = piggoFont,
                 fontWeight = FontWeight.Bold,
-                fontSize = 42.sp,
+                fontSize = 34.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -322,37 +334,31 @@ private fun BalanceCard(
                     value = "$progressPercent%"
                 )
             }
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(8.dp)),
+                    .height(6.dp)
+                    .clip(RoundedCornerShape(6.dp)),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 trackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.18f)
             )
-            Spacer(modifier = Modifier.height(22.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
+            Spacer(modifier = Modifier.height(14.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 DashboardAction(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(id = R.string.dashboard_deposit),
-                    icon = { Icon(imageVector = Icons.Filled.Add, contentDescription = null) },
+                    icon = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.dashboard_deposit),
                     onClick = onDepositClicked
                 )
                 DashboardAction(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(id = R.string.dashboard_goals),
-                    icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = null) },
-                    onClick = onGoalsClicked
+                    icon = Icons.Filled.SwapHoriz,
+                    contentDescription = stringResource(id = R.string.dashboard_transfer),
+                    onClick = onTransferClicked
                 )
                 DashboardAction(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(id = R.string.dashboard_history),
-                    icon = { Icon(imageVector = Icons.Filled.History, contentDescription = null) },
+                    icon = Icons.Filled.History,
+                    contentDescription = stringResource(id = R.string.dashboard_history),
                     onClick = onHistoryClicked
                 )
             }
@@ -367,7 +373,7 @@ private fun BalanceMetric(label: String, value: String) {
             text = label,
             color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.66f),
             fontFamily = piggoFont,
-            fontSize = 12.sp,
+            fontSize = 11.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -376,7 +382,7 @@ private fun BalanceMetric(label: String, value: String) {
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             fontFamily = piggoFont,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -385,38 +391,150 @@ private fun BalanceMetric(label: String, value: String) {
 
 @Composable
 private fun DashboardAction(
-    modifier: Modifier,
-    label: String,
-    icon: @Composable () -> Unit,
+    icon: ImageVector,
+    contentDescription: String,
     onClick: () -> Unit
 ) {
     Surface(
-        modifier = modifier
-            .height(58.dp)
-            .clip(RoundedCornerShape(18.dp))
+        modifier = Modifier
+            .size(44.dp)
+            .clip(RoundedCornerShape(15.dp))
             .clickable(onClick = onClick),
-        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.12f),
+        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.14f),
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(30.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
-            ) {
-                icon()
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SectionTitle(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier.padding(horizontal = 18.dp, vertical = 2.dp),
+        fontFamily = piggoFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp
+    )
+}
+
+@Composable
+private fun DashboardGoalRow(
+    goalItem: DashboardGoalSummary,
+    currencyCode: String,
+    dateText: String,
+    onClick: () -> Unit
+) {
+    val progress = if (goalItem.targetAmount > 0) {
+        (goalItem.savedAmount / goalItem.targetAmount).toFloat().coerceIn(0f, 1f)
+    } else {
+        0f
+    }
+
+    Surface(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick),
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        tonalElevation = 1.dp
+    ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                GoalIcon(goalIconId = goalItem.goalIconId)
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = goalItem.title,
+                        fontFamily = piggoFont,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = dateText,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.64f),
+                        fontFamily = piggoFont,
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Text(
+                    text = NumberUtils.formatCurrency(goalItem.savedAmount, currencyCode),
+                    fontFamily = piggoFont,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
-            Spacer(modifier = Modifier.width(6.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            LinearProgressIndicator(
+                progress = { progress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(5.dp)
+                    .clip(RoundedCornerShape(5.dp)),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun DepositHistoryRow(
+    deposit: DashboardDepositSummary,
+    currencyCode: String,
+    onClick: () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .clickable(onClick = onClick),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GoalIcon(goalIconId = deposit.goalIconId, size = 38)
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = deposit.goalTitle,
+                    fontFamily = piggoFont,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = deposit.formattedDate(),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f),
+                    fontFamily = piggoFont,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             Text(
-                text = label,
+                text = NumberUtils.formatCurrency(deposit.amount, currencyCode),
+                color = MaterialTheme.colorScheme.primary,
                 fontFamily = piggoFont,
-                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -425,110 +543,262 @@ private fun DashboardAction(
 }
 
 @Composable
-private fun DashboardGoalCard(
-    goalItem: GoalWithTransactions,
+private fun HistorySheet(
+    deposits: List<DashboardDepositSummary>,
     currencyCode: String,
-    dateText: String,
-    onClick: () -> Unit
+    onDepositSelected: (DashboardDepositSummary) -> Unit
 ) {
-    val savedAmount = goalItem.getCurrentlySavedAmount()
-    val progress = if (goalItem.goal.targetAmount > 0) {
-        (savedAmount / goalItem.goal.targetAmount).toFloat().coerceIn(0f, 1f)
-    } else {
-        0f
-    }
-
-    Surface(
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .clickable(onClick = onClick),
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        tonalElevation = 2.dp
-    ) {
-        Column(modifier = Modifier.padding(18.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(52.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = goalItem.goal.title.firstOrNull()?.uppercase() ?: "?",
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        fontFamily = piggoFont,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                }
-                Spacer(modifier = Modifier.width(14.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = goalItem.goal.title,
-                        fontFamily = piggoFont,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 17.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = dateText,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.68f),
-                        fontFamily = piggoFont,
-                        fontSize = 13.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                Text(
-                    text = NumberUtils.formatCurrency(savedAmount, currencyCode),
-                    fontFamily = piggoFont,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+    Column(modifier = Modifier.padding(bottom = 24.dp)) {
+        SheetTitle(text = stringResource(id = R.string.dashboard_transaction_history))
+        if (deposits.isEmpty()) {
+            EmptyCard(text = stringResource(id = R.string.dashboard_no_deposits))
+        } else {
+            deposits.forEach { deposit ->
+                DepositHistoryRow(
+                    deposit = deposit,
+                    currencyCode = currencyCode,
+                    onClick = { onDepositSelected(deposit) }
                 )
             }
-            Spacer(modifier = Modifier.height(14.dp))
-            LinearProgressIndicator(
-                progress = { progress },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(7.dp)
-                    .clip(RoundedCornerShape(7.dp)),
-                color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-            )
         }
     }
 }
 
 @Composable
-private fun EmptyGoalCard() {
+private fun GoalIcon(goalIconId: String?, size: Int = 42) {
+    val icon = remember(goalIconId) {
+        ImageUtils.createIconVector(goalIconId ?: Constants.DEFAULT_GOAL_ICON_ID)
+            ?: Icons.Filled.Savings
+    }
+
+    Box(
+        modifier = Modifier
+            .size(size.dp)
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.size((size * 0.52f).dp)
+        )
+    }
+}
+
+@Composable
+private fun EmptyCard(text: String) {
     Surface(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceContainer,
-        shape = RoundedCornerShape(24.dp),
-        tonalElevation = 2.dp
+        shape = RoundedCornerShape(16.dp),
+        tonalElevation = 1.dp
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(28.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(id = R.string.dashboard_no_goals),
-                fontFamily = piggoFont,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f)
-            )
+        Text(
+            text = text,
+            modifier = Modifier.padding(18.dp),
+            fontFamily = piggoFont,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f)
+        )
+    }
+}
+
+@Composable
+private fun DepositGoalPicker(
+    goals: List<DashboardGoalSummary>,
+    currencyCode: String,
+    onGoalSelected: (DashboardGoalSummary) -> Unit
+) {
+    Column(modifier = Modifier.padding(bottom = 24.dp)) {
+        SheetTitle(text = stringResource(id = R.string.dashboard_choose_stash))
+        if (goals.isEmpty()) {
+            EmptyCard(text = stringResource(id = R.string.dashboard_no_goals))
+        } else {
+            goals.forEach { goal ->
+                GoalPickerRow(
+                    goal = goal,
+                    currencyCode = currencyCode,
+                    selected = false,
+                    onClick = { onGoalSelected(goal) }
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun TransferSheet(
+    goals: List<DashboardGoalSummary>,
+    currencyCode: String,
+    onTransfer: (DashboardGoalSummary, DashboardGoalSummary, String) -> Unit
+) {
+    var fromGoalId by remember(goals) {
+        mutableStateOf(goals.firstOrNull { it.savedAmount > 0 }?.goalId ?: goals.firstOrNull()?.goalId)
+    }
+    var toGoalId by remember(goals, fromGoalId) {
+        mutableStateOf(goals.firstOrNull { it.goalId != fromGoalId }?.goalId)
+    }
+    var amountText by remember { mutableStateOf("") }
+    val fromGoal = goals.firstOrNull { it.goalId == fromGoalId }
+    val toGoal = goals.firstOrNull { it.goalId == toGoalId }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+            .padding(bottom = 24.dp)
+    ) {
+        SheetTitle(text = stringResource(id = R.string.dashboard_transfer))
+        if (goals.size < 2) {
+            EmptyCard(text = stringResource(id = R.string.dashboard_transfer_needs_goals))
+            return@Column
+        }
+
+        SheetSubTitle(text = stringResource(id = R.string.dashboard_transfer_from))
+        goals.filter { it.savedAmount > 0 }.forEach { goal ->
+            GoalPickerRow(
+                goal = goal,
+                currencyCode = currencyCode,
+                selected = goal.goalId == fromGoalId,
+                onClick = {
+                    fromGoalId = goal.goalId
+                    if (toGoalId == goal.goalId) {
+                        toGoalId = goals.firstOrNull { it.goalId != goal.goalId }?.goalId
+                    }
+                }
+            )
+        }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+        SheetSubTitle(text = stringResource(id = R.string.dashboard_transfer_to))
+        goals.filter { it.goalId != fromGoalId }.forEach { goal ->
+            GoalPickerRow(
+                goal = goal,
+                currencyCode = currencyCode,
+                selected = goal.goalId == toGoalId,
+                onClick = { toGoalId = goal.goalId }
+            )
+        }
+        OutlinedTextField(
+            value = amountText,
+            onValueChange = { amountText = NumberUtils.getValidatedNumber(it) },
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 10.dp)
+                .fillMaxWidth(),
+            label = { Text(text = stringResource(id = R.string.dashboard_transfer_amount)) },
+            singleLine = true,
+            prefix = { Text(text = NumberUtils.getCurrencySymbol(currencyCode)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+        )
+        Button(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            enabled = fromGoal != null && toGoal != null,
+            onClick = {
+                if (fromGoal != null && toGoal != null) {
+                    onTransfer(fromGoal, toGoal, amountText)
+                }
+            }
+        ) {
+            Text(text = stringResource(id = R.string.confirm), fontFamily = piggoFont)
+        }
+    }
+}
+
+@Composable
+private fun SheetTitle(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        fontFamily = piggoFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    )
+}
+
+@Composable
+private fun SheetSubTitle(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+        fontFamily = piggoFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp
+    )
+}
+
+@Composable
+private fun GoalPickerRow(
+    goal: DashboardGoalSummary,
+    currencyCode: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .clickable(onClick = onClick),
+        color = if (selected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surfaceContainer
+        }
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GoalIcon(goalIconId = goal.goalIconId, size = 36)
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = goal.title,
+                    fontFamily = piggoFont,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = NumberUtils.formatCurrency(goal.savedAmount, currencyCode),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f),
+                    fontFamily = piggoFont,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            if (selected) {
+                Icon(
+                    imageVector = Icons.Filled.AccountBalanceWallet,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
+    }
+}
+
+private fun DashboardGoalSummary.remainingDaysText(): String {
+    if (savedAmount >= targetAmount) {
+        return "Goal achieved!"
+    }
+    if (deadline == 0L) {
+        return "No deadline set"
+    }
+    val endDate = Utils.convertEpochToLocalDate(deadline)
+    val days = ChronoUnit.DAYS.between(LocalDate.now(), endDate).coerceAtLeast(0)
+    return "$days days left"
+}
+
+private fun DashboardDepositSummary.formattedDate(): String {
+    return DateFormat.getDateInstance().format(Date(timeStamp))
 }
 
 @Composable

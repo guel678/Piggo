@@ -133,6 +133,16 @@ class ReminderManager(private val context: Context) {
         Log.d(TAG, "Scheduled reminders for goals with reminder.")
     }
 
+    fun checkAndScheduleReminderIds(goalIds: List<Long>) {
+        Log.d(TAG, "Scheduling reminders for reminder-enabled goal ids.")
+        goalIds.forEach { goalId ->
+            if (!isReminderSet(goalId)) {
+                scheduleReminder(goalId)
+            }
+        }
+        Log.d(TAG, "Scheduled reminders for reminder-enabled goal ids.")
+    }
+
     // Creates a pending intent for the reminder.
     private fun createReminderIntent(goalId: Long, flags: Int) =
         Intent(context.applicationContext, AlarmReceiver::class.java).apply {

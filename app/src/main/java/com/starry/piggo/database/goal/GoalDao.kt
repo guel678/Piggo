@@ -34,6 +34,21 @@ import androidx.room.Update
 import com.starry.piggo.database.core.GoalWithTransactions
 import kotlinx.coroutines.flow.Flow
 
+data class DashboardGoalSummary(
+    val goalId: Long,
+    val title: String,
+    val goalIconId: String?,
+    val targetAmount: Double,
+    val deadline: Long,
+    val savedAmount: Double
+)
+
+data class GoalShortcutInfo(
+    val goalId: Long,
+    val title: String,
+    val priority: GoalPriority
+)
+
 
 @Dao
 interface GoalDao {
@@ -93,6 +108,31 @@ interface GoalDao {
     @Transaction
     @Query("SELECT * FROM saving_goal WHERE archived = 0")
     suspend fun getAllGoals(): List<GoalWithTransactions>
+
+    @Query("SELECT goalId FROM saving_goal WHERE archived = 0 AND reminder = 1")
+    suspend fun getReminderGoalIds(): List<Long>
+
+    @Query(
+        "SELECT goalId, title, priority FROM saving_goal " +
+                "WHERE archived = 0 ORDER BY priority DESC LIMIT :limit"
+    )
+    suspend fun getShortcutGoals(limit: Int): List<GoalShortcutInfo>
+
+    @Query(
+        "SELECT goal.goalId AS goalId, goal.title AS title, goal.goalIconId AS goalIconId, " +
+                "goal.targetAmount AS targetAmount, " +
+                "goal.deadline AS deadline, " +
+                "COALESCE(SUM(CASE " +
+                "WHEN tx.type = 0 THEN tx.amount " +
+                "WHEN tx.type = 1 THEN -tx.amount " +
+                "ELSE 0 END), 0) AS savedAmount " +
+                "FROM saving_goal AS goal " +
+                "LEFT JOIN `transaction` AS tx ON goal.goalId = tx.ownerGoalId " +
+                "WHERE goal.archived = 0 " +
+                "GROUP BY goal.goalId, goal.title, goal.goalIconId, goal.targetAmount, goal.deadline " +
+                "ORDER BY goal.title ASC"
+    )
+    fun getDashboardGoalSummaries(): Flow<List<DashboardGoalSummary>>
 
     /**
      * Get all unarchived goals as LiveData.
